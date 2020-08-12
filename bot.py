@@ -17,7 +17,7 @@ api = tweepy.API(auth)
 mentions = api.mentions_timeline()
 for status in mentions:
     print(status.entities['hashtags'])
-    if 'DameDaNeBot' in status.entities['hashtags']:
+    if 'DameDaNeBot' in status.entities['hashtags']['text']:
         print('success')
 """
 while True:
