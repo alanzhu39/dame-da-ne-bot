@@ -1,4 +1,7 @@
-import tweepy
+from twython import Twython
+import requests
+from io import BytesIO
+from makevid import makevid
 from os import environ
 
 credentials = open('credentials.txt', 'r')
@@ -10,25 +13,47 @@ consumer_secret = credentials.readline().strip()
 access_key = credentials.readline().strip()
 access_secret = credentials.readline().strip()
 
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_key, access_secret)
-api = tweepy.API(auth)
+api = Twython(consumer_key, consumer_secret, access_key, access_secret)
 
-mentions = api.mentions_timeline()
+video = open('final.mp4', 'rb')
+response = api.upload_video(media=video, media_type='video/mp4')
+api.update_status(status="Here is your personally generated meme! I am a bot.", media_ids=[response['media_id']])
+video.close()
+
+mentions = api.get_mentions_timeline()
+recents = [status['in_reply_to_status_id'] for status in api.get_user_timeline()]
+curr = None
 for status in mentions:
-    print(status.entities['hashtags'])
-    if 'DameDaNeBot' in status.entities['hashtags']['text']:
-        print('success')
+    if status['id'] not in recents:
+        texts = [hashtag['text'] for hashtag in status['entities']['hashtags']]
+        if 'DameDaNeMe' in texts:
+            curr = status
+            break
+if curr is not None:
+    print('success')
+    print(curr['id'])
+    """
+    f = open('files/02.png', 'wb')
+    f.write(requests.get(curr['user']['profile_image_url_https']).content)
+    f.close()
+    makevid()
+    video = open('final.mp4', 'rb')
+    response = api.upload_video(media=video, media_type='video/mp4', media_category='TweetVideo')
+    api.update_status(status="@{} Here is your personally generated meme! I am a bot.".format(curr['user']['screen_name']), media_ids=[response['media_id']], in_reply_to_status_id=curr['id'])
+    """
+
 """
 while True:
     mentions = api.mentions_timeline()
-    recents = [status.in_reply_to_status_id for status in api.user_timeline('DameDaNeMe')]
+    recents = [status.in_reply_to_status_id for status in api.user_timeline('DameDaNeBot')]
     curr = None
     for status in mentions:
         if status.id not in recents:
-            curr = status
-            break
-    if curr == None:
-        continue
+            texts = [hashtag['text'] for hashtag in status.entities['hashtags']]
+            if 'DameDaNeMe' in texts:
+                curr = status
+                break
+    if curr is not None:
+
     time.sleep(interval)
 """
