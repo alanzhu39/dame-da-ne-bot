@@ -16,7 +16,7 @@ access_secret = credentials.readline().strip()
 api = Twython(consumer_key, consumer_secret, access_key, access_secret)
 
 while True:
-    mentions = api.get_mentions_timeline()
+    mentions = api.get_mentions_timeline()[::-1]
     recents = [status['in_reply_to_status_id'] for status in api.get_user_timeline()]
     curr = None
     for status in mentions:
