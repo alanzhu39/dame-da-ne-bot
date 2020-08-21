@@ -30,4 +30,5 @@ def makevid():
     generated = generated.set_audio(audioClip)
     generated.write_videofile('final.mp4', audio_codec='aac')
 
-# makevid()
+if __name__ == "__main__":
+    makevid()
