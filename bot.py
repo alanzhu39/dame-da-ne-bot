@@ -35,5 +35,6 @@ while True:
         video = open('final.mp4', 'rb')
         response = api.upload_video(media=video, media_type='video/mp4')
         api.update_status(status="@{} Here is your personally generated meme! I am a bot.".format(curr['user']['screen_name']), media_ids=[response['media_id']], in_reply_to_status_id=curr['id'])
+        video.close()
     # break
     time.sleep(interval)
