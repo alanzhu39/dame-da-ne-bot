@@ -12,9 +12,11 @@ warnings.filterwarnings("ignore")
 def makevid():
     source_image = imageio.imread('files/02.png')
     driving_video = imageio.mimread('files/04.mp4', memtest=False)
-
+    print("read")
+    
     source_image = resize(source_image, (256, 256))[..., :3]
     driving_video = [resize(frame, (256, 256))[..., :3] for frame in driving_video]
+    print('resized')
 
     demo = importlib.import_module('first-order-model.demo')
     generator, kp_detector = demo.load_checkpoints(config_path='first-order-model/config/vox-256.yaml', \
