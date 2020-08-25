@@ -28,6 +28,7 @@ def makevid():
     audioClip = AudioFileClip('damedane.mp3')
     generated = VideoFileClip('generated.mp4').fx(vfx.speedx, generated.duration/audioClip.duration)
     generated = generated.set_audio(audioClip)
-    generated.write_videofile('final.mp4',bitrate='400k')
+    generated.write_videofile('final.mp4', audio_codec='aac')
 
-# makevid()
+if __name__ == "__main__":
+    makevid()
