@@ -1,5 +1,5 @@
 # DameDaNe Bot
-A Twitter bot that replies to @mentions with the a personalized Dame Da Ne meme using the user's avatar.
+A Twitter bot that replies to @mentions with the a personalized Dame Da Ne meme using the user's avatar.  
 More info on the Dame Da Ne meme: https://knowyourmeme.com/memes/dame-da-ne-baka-mitai. Visit https://twitter.com/damedanebot to see the bot in action.
 
 ## Sources
